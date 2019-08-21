@@ -5,24 +5,18 @@
       @onClick="onSearchaBarClick"
     >//  等价于直接写  disable
     </SearchBar>
-    <ImageView
-      src="https://www.youbaobao.xyz/mpvue-res/big.jpg"
-      round
-      mode="scaleToFill"
-      height="200px"
-    >      //高度自适应的写法  height="300px" mode="scaleToFill"
-    </ImageView>
+    <HomeCard></HomeCard>
   </div>
 </template>
 
 <script>
   import SearchBar from '../../components/home/SearchBar'
-  import ImageView from '../../components/base/ImageView'
+  import HomeCard from '../../components/home/HomeCard'
 
   export default {
     components: {
       SearchBar,
-      ImageView
+      HomeCard
     },
     methods: {
       onSearchaBarClick() {
