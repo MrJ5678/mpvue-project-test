@@ -8,7 +8,7 @@
       :lazy-load="lazyLoad"
       @load="onLoad"
       @error="onError"
-      v-show="!isLoading && ! error"
+      v-show="!isLoading && !error"
     />
     <img
       :class="round ? 'round image' : 'image'"
@@ -64,25 +64,26 @@
       onError() {
         this.error = true
         this.isLoading = false
-        console.log('onError')
       },
       onLoad() {
         this.isLoading = false
         this.error = false
-        console.log('onLoad')
       }
     }
   }
 </script>
 
 <style lang="scss" scoped>
-.image-view {
-  width: 100%;
-  .image {
+  .image-view {
     width: 100%;
-    &.round {
-      border-radius: 50%;
-     }
+
+    .image {
+      width: 100%;
+
+      &.round {
+        border-radius: 50%;
+      }
+
+    }
   }
-}
 </style>

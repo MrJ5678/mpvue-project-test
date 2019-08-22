@@ -21,14 +21,14 @@
             </ImageView>
           </div>
           <div class="book-image-wrapper">
-          <ImageView
-            src="https://www.youbaobao.xyz/book/res/img//EarthSciences/978-981-10-3713-9_CoverFigure.jpg">
-          </ImageView>
+            <ImageView
+              src="https://www.youbaobao.xyz/book/res/img//EarthSciences/978-981-10-3713-9_CoverFigure.jpg">
+            </ImageView>
           </div>
           <div class="book-image-wrapper">
-          <ImageView
-            src="https://www.youbaobao.xyz/book/res/img//EarthSciences/978-981-10-3713-9_CoverFigure.jpg">
-          </ImageView>
+            <ImageView
+              src="https://www.youbaobao.xyz/book/res/img//EarthSciences/978-981-10-3713-9_CoverFigure.jpg">
+            </ImageView>
           </div>
         </div>
         <div class="shelf-wrapper">
@@ -55,7 +55,7 @@
 
   export default {
     name: 'HomeCard',
-    components: { ImageView },
+    components: {ImageView},
     props: {
       data: Object,
       hasSign: {
@@ -98,17 +98,21 @@
     background-image: linear-gradient(-90deg, #54575F 0%, #595B60 100%);
     border-radius: 15px;
     margin: 22px 20px 0;
+
     .home-card-inner {
       position: relative;
       padding: 22px 17px 20px 20px;
       box-sizing: border-box;
+
       .user-info {
         display: flex;
         align-items: center;
+
         .avatar-wrapper {
           width: 20px;
           height: 20px;
         }
+
         .nickname {
           font-family: PingFangSC-Regular;
           font-size: 12px;
@@ -116,12 +120,14 @@
           margin: 0 8.5px;
 
         }
+
         .shelf-text {
           opacity: 0.7;
           font-family: PingFangSC-Regular;
           font-size: 12px;
           color: #FFFFFF;
         }
+
         .round-item {
           width: 4px;
           height: 4px;
@@ -130,21 +136,26 @@
           margin: 0 8px;
         }
       }
+
       .book-info {
         display: flex;
         margin-top: 16.5px;
+
         .book-wrapper {
           flex: 1;
           display: flex;
           justify-content: space-around;
+
           .book-image-wrapper {
             width: 72px;
             height: 101px;
           }
         }
+
         .shelf-wrapper {
           display: flex;
           align-items: center;
+
           .shelf {
             font-size: 11px;
             width: 11px;
@@ -155,6 +166,7 @@
           }
         }
       }
+
       .feedback-wrapper {
         position: absolute;
         right: 0;
@@ -165,6 +177,7 @@
         opacity: .3;
         border-radius: 100px 0 0 100px;
       }
+
       .feedback-text {
         position: absolute;
         right: 0;

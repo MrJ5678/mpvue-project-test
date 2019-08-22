@@ -85,6 +85,7 @@
 <style lang="scss" scoped>
   .search-bar {
     padding: 15px;
+
     .search-bar-wrapper {
       display: flex;
       align-items: center;
@@ -93,10 +94,12 @@
       background-color: #F5F7F9;
       border-radius: 20px;
       padding: 12px 15px;
+
       .search-bar-input {
         flex: 1;
         margin: 0 8px;
       }
+
       .search, .clear {
         display: flex;
         align-items: center;
