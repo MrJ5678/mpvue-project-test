@@ -13,7 +13,7 @@
         :disabled="disabled"
         :maxlength="limit"
         :placeholder="hotSearch.length === 0 ? '搜索' : hotSearch"
-        placeholder-style="color: #ADB4BE"
+        placeholder-style="color: #ADB4BE;font-size: 15px"
         v-model="searchWord"
         @input="onChange"
         confirm-type="search"
