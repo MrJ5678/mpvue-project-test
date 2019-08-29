@@ -1,5 +1,5 @@
 <template>
-  <div class="image-view">
+  <div class="image-view" @click="onClick" :style="{ height }">
     <img
       :class="round ? 'round image' : 'image'"
       :style="{ height }"
@@ -48,7 +48,12 @@
     },
     watch: {
       src(newValue, preValue) {
-
+        if (newValue && newValue.length > 0 && newValue !== preValue) {
+          this.$nextTick(() => {
+            this.isLoading = true
+            this.error = false
+          })
+        }
       }
     },
     data() {

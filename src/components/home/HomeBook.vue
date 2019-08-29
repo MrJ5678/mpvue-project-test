@@ -57,9 +57,6 @@
     components: {
       ImageView
     },
-    mounted() {
-      console.log(this.bookData)
-    },
     props: {
       title: String,
       data: {

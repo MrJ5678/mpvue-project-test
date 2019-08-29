@@ -1,74 +1,77 @@
 <template>
-  <div class="home">
-    <SearchBar
-      :disabled="true"
-      @onClick="onSearchaBarClick"
-      :hotSearch="hotSearch"
-    >// 等价于直接写 disable
-    </SearchBar>
-    <HomeCard
-      :data="homeCard"
-    >
-    </HomeCard>
-    <HomeBanner
-      img="http://www.youbaobao.xyz/book/res/bg.jpg"
-      title="mpvue 2.0项目开发测试"
-      subTitle="开始测试"
-      @onClick="onBannerClick"
-    >
-    </HomeBanner>
-    <div :style="{marginTop: '23px'}">
-      <HomeBook
-        :row="1"
-        :col="3"
-        title="为你推荐"
-        :data="recommend"
-        mode="col"
-        btn-text="换一批"
-        @onMoreClick="onBookMoreClick"
-        @onBookClick="onHomeBookClick"
+  <div>
+    <div class="home" v-if="isAuth">
+      <SearchBar
+        :disabled="true"
+        @onClick="onSearchaBarClick"
+        :hotSearch="hotSearch"
+      >// 等价于直接写 disable
+      </SearchBar>
+      <HomeCard
+        :data="homeCard"
       >
-      </HomeBook>
-    </div>
-    <div :style="{marginTop: '23px'}">
-      <HomeBook
-        :row="2"
-        :col="2"
-        title="免费阅读"
-        :data="freeRead"
-        mode="row"
-        btn-text="换一批"
-        @onMoreClick="onBookMoreClick"
-        @onBookClick="onHomeBookClick"
+      </HomeCard>
+      <HomeBanner
+        img="http://www.youbaobao.xyz/book/res/bg.jpg"
+        title="mpvue 2.0项目开发测试"
+        subTitle="开始测试"
+        @onClick="onBannerClick"
       >
-      </HomeBook>
+      </HomeBanner>
+      <div :style="{marginTop: '23px'}">
+        <HomeBook
+          :row="1"
+          :col="3"
+          title="为你推荐"
+          :data="recommend"
+          mode="col"
+          btn-text="换一批"
+          @onMoreClick="recommendChange('recommend')"
+          @onBookClick="onHomeBookClick"
+        >
+        </HomeBook>
+      </div>
+      <div :style="{marginTop: '23px'}">
+        <HomeBook
+          :row="2"
+          :col="2"
+          title="免费阅读"
+          :data="freeRead"
+          mode="row"
+          btn-text="换一批"
+          @onMoreClick="recommendChange('freeRead')"
+          @onBookClick="onHomeBookClick"
+        >
+        </HomeBook>
+      </div>
+      <div :style="{marginTop: '23px'}">
+        <HomeBook
+          :row="1"
+          :col="4"
+          title="当前最热"
+          :data="hotBook"
+          mode="col"
+          btn-text="换一批"
+          @onMoreClick="recommendChange('hotBook')"
+          @onBookClick="onHomeBookClick"
+        >
+        </HomeBook>
+      </div>
+      <div :style="{marginTop: '23px'}">
+        <HomeBook
+          :row="3"
+          :col="2"
+          title="分类"
+          :data="category"
+          mode="category"
+          btn-text="查看全部"
+          @onMoreClick="onCategoryMoreClick"
+          @onBookClick="onHomeBookClick"
+        >
+        </HomeBook>
+      </div>
     </div>
-    <div :style="{marginTop: '23px'}">
-      <HomeBook
-        :row="1"
-        :col="4"
-        title="当前最热"
-        :data="hotBook"
-        mode="col"
-        btn-text="换一批"
-        @onMoreClick="onBookMoreClick"
-        @onBookClick="onHomeBookClick"
-      >
-      </HomeBook>
-    </div>
-    <div :style="{marginTop: '23px'}">
-      <HomeBook
-        :row="3"
-        :col="2"
-        title="分类"
-        :data="category"
-        mode="category"
-        btn-text="查看全部"
-        @onMoreClick="onBookMoreClick"
-        @onBookClick="onHomeBookClick"
-      >
-      </HomeBook>
-    </div>
+    <Auth v-if=!isAuth @getUserInfo="init"></Auth>
   </div>
 </template>
 
@@ -77,14 +80,17 @@
   import HomeCard from '../../components/home/HomeCard'
   import HomeBanner from '../../components/home/HomeBanner'
   import HomeBook from '../../components/home/HomeBook'
-  import { getHomeData } from '../../api'
+  import Auth from '../../components/base/Auth'
+  import {getHomeData, recommend, freeRead, hotBook, register} from '../../api'
+  import {getSetting, getUserInfo, setStorageSync, getStorageSync, getUserOpenId, showLoading, hideLoading} from '../../api/wechat'
 
   export default {
     components: {
       SearchBar,
       HomeCard,
       HomeBanner,
-      HomeBook
+      HomeBook,
+      Auth
     },
     data() {
       return {
@@ -94,15 +100,62 @@
         recommend: [],
         freeRead: [],
         hotBook: [],
-        category: []
+        category: [],
+        isAuth: true
       }
     },
     mounted() {
-      console.log(this.getHomeData())
+      // this.getHomeData()
+      this.init()
     },
     methods: {
-      getHomeData() {
-        getHomeData({openId: 1234}).then(response => {
+      recommendChange(key) {
+        switch (key) {
+          case 'recommend':
+            recommend().then(response => {
+              this.recommend = response.data.data
+            })
+            break
+          case 'freeRead':
+            freeRead().then(response => {
+              this.freeRead = response.data.data
+            })
+            break
+          case 'hotBook':
+            hotBook().then(response => {
+              this.hotBook = response.data.data
+            })
+            break
+        }
+      },
+      onSearchBarClick() {
+        //  跳转到搜索页面
+
+      },
+      onBannerClick() {
+        console.log('banner click...')
+      },
+      onCategoryMoreClick() {
+        console.log('onMoreClick ...')
+      },
+      onHomeBookClick() {
+        console.log('onBookClick ...')
+      },
+      getSetting() {
+        getSetting(
+          'userInfo',
+          () => {
+            this.isAuth = true
+            showLoading('正在加载')
+            this.getUserInfo()
+          },
+          () => {
+            this.isAuth = false
+          }
+        )
+      },
+      getHomeData(openId, userInfo) {
+        getHomeData({openId}).then(response => {
           const {
             data: {
               hotSearch: {
@@ -117,7 +170,6 @@
               shelfCount
             }
           } = response.data
-          console.log(keyword, shelf, banner, recommend, freeRead, hotBook, category, shelfCount)
           this.hotSearch = keyword
           this.shelf = shelf
           this.banner = banner
@@ -128,30 +180,40 @@
           this.homeCard = {
             bookList: shelf,
             num: shelfCount,
-            userInfo: {
-              avatar: 'https://www.youbaobao.xyz/mpvue-res/logo.jpg',
-              nickname: '米老鼠'
-            }
+            userInfo
           }
+          hideLoading()
+        }).catch(() => {
+          hideLoading()
         })
       },
-      onSearchaBarClick() {
-        //  跳转到搜索页面
-
+      getUserInfo() {
+        const onOpenIdComplete = (openId, userInfo) => {
+          this.getHomeData(openId, userInfo)
+          register(openId, userInfo)
+        }
+        getUserInfo(
+          (userInfo) => {
+            console.log(userInfo)
+            setStorageSync('userInfo', userInfo)
+            const openId = getStorageSync('openId')
+            if (!openId || openId.length === 0) {
+              getUserOpenId(openId => onOpenIdComplete(openId, userInfo))
+            } else {
+              onOpenIdComplete(openId, userInfo)
+            }
+          },
+          () => {
+            console.log('failed...') // 获取用户信息，抛出异常
+          }
+        )
       },
-      onBannerClick() {
-        console.log('banner click...')
-      },
-      onBookMoreClick() {
-        console.log('onMoreClick ...')
-      },
-      onHomeBookClick() {
-        console.log('onBookClick ...')
+      init() {
+        this.getSetting()
       }
     }
   }
 </script>
 
 <style lang="scss" scoped>
-
 </style>

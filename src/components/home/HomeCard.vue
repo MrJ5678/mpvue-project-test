@@ -6,6 +6,8 @@
           <ImageView
             :src="avatar"
             round
+            height="100%"
+            mode="scaleToFill"
           >
           </ImageView>
         </div>
@@ -65,10 +67,10 @@
     },
     computed: {
       avatar() {
-        return this.data && this.data.userInfo && this.data.userInfo.avatar
+        return (this.data && this.data.userInfo && this.data.userInfo.avatarUrl) || ''
       },
       nickname() {
-        return this.data && this.data.userInfo && this.data.userInfo.nickname
+        return (this.data && this.data.userInfo && this.data.userInfo.nickName) || ''
       },
       bookList() {
         return (this.data && this.data.bookList) || []
