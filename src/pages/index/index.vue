@@ -3,7 +3,7 @@
     <div class="home" v-if="isAuth">
       <SearchBar
         :disabled="true"
-        @onClick="onSearchaBarClick"
+        @onClick="onSearchBarClick"
         :hotSearch="hotSearch"
       >// 等价于直接写 disable
       </SearchBar>
@@ -129,8 +129,12 @@
         }
       },
       onSearchBarClick() {
-        //  跳转到搜索页面
-
+        this.$router.push({
+          path: '/pages/search/main',
+          query: {
+            hotSearch: this.hotSearch
+          }
+        })
       },
       onBannerClick() {
         console.log('banner click...')

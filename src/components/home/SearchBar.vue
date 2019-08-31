@@ -1,6 +1,6 @@
 <template>
   <div class="search-bar">
-    <div class="search-bar-wrapper">
+    <div class="search-bar-wrapper" @click="onSearchBarClick">
       <van-icon
         class="search"
         name="search"
@@ -98,6 +98,8 @@
       .search-bar-input {
         flex: 1;
         margin: 0 8px;
+        color: #333;
+        font-size: 15px;
       }
 
       .search, .clear {
