@@ -9,6 +9,7 @@
       </SearchBar>
       <HomeCard
         :data="homeCard"
+        @onClick="onHomeBookClick"
       >
       </HomeCard>
       <HomeBanner
@@ -142,8 +143,14 @@
       onCategoryMoreClick() {
         console.log('onMoreClick ...')
       },
-      onHomeBookClick() {
-        console.log('onBookClick ...')
+      onHomeBookClick(book) {
+        console.log(book)
+        this.$router.push({
+          path: '/pages/detail/main',
+          query: {
+            fileName: book.fileName
+          }
+        })
       },
       getSetting() {
         getSetting(
